@@ -1,0 +1,3 @@
+# Ignore files in 'results' directory
+
+results/*.csv
