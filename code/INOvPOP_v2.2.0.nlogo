@@ -106,11 +106,6 @@ to setup-landscape      ;setup model landscape using GIS data for the selected r
     set forest-map gis:load-dataset "../data/stjoseph.asc"
     if recommended_parameter_values = TRUE [ set post_harvest_density 25 ]
     ]
-  if region = "Kankakee" [
-    resize-world 0 56 0 72
-    set forest-map gis:load-dataset "../data/kankakee.asc"
-    if recommended_parameter_values = TRUE [ set post_harvest_density 25 ]
-    ]
   if region = "Elkhart" [
     resize-world 0 22 0 23
     set forest-map gis:load-dataset "../data/elkhart.asc"
@@ -124,6 +119,11 @@ to setup-landscape      ;setup model landscape using GIS data for the selected r
   if region = "LaPorte" [
     resize-world 0 23 0 37
     set forest-map gis:load-dataset "../data/laporte.asc"
+    if recommended_parameter_values = TRUE [ set post_harvest_density 25 ]
+    ]
+  if region = "Kankakee" [
+    resize-world 0 122 0 108
+    set forest-map gis:load-dataset "../data/kankakee_20220321.asc"
     if recommended_parameter_values = TRUE [ set post_harvest_density 25 ]
     ]
 
@@ -1239,11 +1239,11 @@ end
 GRAPHICS-WINDOW
 798
 65
-1166
-644
+1298
+510
 -1
 -1
-15.0
+4.0
 1
 10
 1
@@ -1254,9 +1254,9 @@ GRAPHICS-WINDOW
 1
 1
 0
-23
+122
 0
-37
+108
 1
 1
 1
@@ -1710,7 +1710,7 @@ CHOOSER
 region
 region
 "Elkhart" "LaGrange" "LaPorte" "StJoseph" "Kankakee"
-2
+4
 
 SLIDER
 179
@@ -2267,7 +2267,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.2.1
+NetLogo 6.2.2
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
