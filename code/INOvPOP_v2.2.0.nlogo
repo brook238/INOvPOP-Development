@@ -122,8 +122,8 @@ to setup-landscape      ;setup model landscape using GIS data for the selected r
     if recommended_parameter_values = TRUE [ set post_harvest_density 25 ]
     ]
   if region = "Kankakee" [
-    resize-world 0 122 0 108
-    set forest-map gis:load-dataset "../data/kankakee_20220321.asc"
+    resize-world 0 112 0 102
+    set forest-map gis:load-dataset "../data/kankakee_20220327.asc"
     if recommended_parameter_values = TRUE [ set post_harvest_density 25 ]
     ]
 
@@ -1239,8 +1239,8 @@ end
 GRAPHICS-WINDOW
 798
 65
-1298
-510
+1258
+486
 -1
 -1
 4.0
@@ -1254,9 +1254,9 @@ GRAPHICS-WINDOW
 1
 1
 0
-122
+112
 0
-108
+102
 1
 1
 1
