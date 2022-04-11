@@ -31,6 +31,7 @@ globals
   ntplus1
   lambda
   iteration
+  drz-raster                    ;20220407. Stores raster with deer reduction zones (DRZ)
   ]
 patches-own
 [
@@ -39,6 +40,7 @@ patches-own
   do                            ;'deer occupancy' 1 if deer occur on a patch, 0 otherwise
   border                        ;identifying border patches
   dfp                           ;mean forest-percent for a patch and its immediate neighbors
+  drz?                          ;20220407. Identifies deer reduction zone patches
   ]
 
 breed [ deers deer ]
@@ -127,8 +129,19 @@ to setup-landscape      ;setup model landscape using GIS data for the selected r
     if recommended_parameter_values = TRUE [ set post_harvest_density 25 ]
     ]
 
+  ;20220407. Import DRZ raster if present
+  let drz-raster-name "../data/kankakee_drz_20220407.asc"
+  if file-exists? drz-raster-name [
+    set drz-raster gis:load-dataset "../data/kankakee_drz_20220407.asc"
+  ]
+
   gis:set-world-envelope gis:envelope-of forest-map
   gis:apply-raster forest-map forest-percent
+
+  ;20220407. Apply DRZ raster to drz? if raster exists
+  if file-exists? drz-raster-name [
+    gis:apply-raster drz-raster drz?
+  ]
 
   ask patches [ set border 0 ]
   let brown-patches patches with [ forest-percent = 0 ]
@@ -394,7 +407,7 @@ end
 ;-----------------------------------------------------------------------------------;
 to go
   set iteration (behaviorspace-run-number)
-  if ticks = 312 [
+  if ticks = 25 [
     if output2 = "postharvest_population" or output2 = "both" [
       export-world (word "../results/PostHarvestPopulation" region "_v2.2.0.csv")
       ]
@@ -686,6 +699,18 @@ to go
           ]
         ]
       ]
+
+    ;20220408. DRZ mortality
+    if any? patches with [drz? = 1] [
+      ask patches with [drz? = 1] [
+        if any? deers-here [
+          ask n-of round(drz-mortality * count deers-here) deers-here [
+            die
+          ]
+        ]
+      ]
+    ]
+
     let tot_harvest (tmfh + tmyh + tamh + tffh + tfyh + tafh)
     set vals3 (list (tmfh) (tmyh) (tamh) (tffh) (tfyh) (tafh) (tot_harvest) (iteration))
     set vals (sentence vals1 vals2 vals3)
@@ -705,6 +730,8 @@ to go
       set tmyh 0
       set tfyh 0
       ]
+
+
     ]
   set-current-plot "deer population"
   plotxy ticks count deers
@@ -1905,6 +1932,21 @@ INdiana Odocoileus virginianus POPulation (INOvPOP) ABM version 2.2.0
 18
 0.0
 1
+
+SLIDER
+469
+737
+641
+770
+drz-mortality
+drz-mortality
+0
+1
+0.15
+0.05
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
