@@ -40,7 +40,7 @@ patches-own
   do                            ;'deer occupancy' 1 if deer occur on a patch, 0 otherwise
   border                        ;identifying border patches
   dfp                           ;mean forest-percent for a patch and its immediate neighbors
-  drz?                          ;20220407. Identifies deer reduction zone patches
+  drz                          ;20220407. Identifies deer reduction zone patches
   ]
 
 breed [ deers deer ]
@@ -138,9 +138,9 @@ to setup-landscape      ;setup model landscape using GIS data for the selected r
   gis:set-world-envelope gis:envelope-of forest-map
   gis:apply-raster forest-map forest-percent
 
-  ;20220407. Apply DRZ raster to drz? if raster exists
+  ;20220407. Apply DRZ raster to drz if raster exists
   if file-exists? drz-raster-name [
-    gis:apply-raster drz-raster drz?
+    gis:apply-raster drz-raster drz
   ]
 
   ask patches [ set border 0 ]
@@ -701,8 +701,8 @@ to go
       ]
 
     ;20220408. DRZ mortality
-    if any? patches with [drz? = 1] [
-      ask patches with [drz? = 1] [
+    if any? patches with [drz = 1] [
+      ask patches with [drz = 1] [
         if any? deers-here [
           ask n-of round(drz-mortality * count deers-here) deers-here [
             ;04/11/2022 AB
@@ -2344,7 +2344,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.2.1
+NetLogo 6.2.2
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
