@@ -704,6 +704,7 @@ to go
     if any? patches with [drz = 1] [
       ask patches with [drz = 1] [
         if any? deers-here with [sex = 2] [
+          ; 20220413. Make mortality female specific
           ask n-of round(drz-mortality * count deers-here) deers-here [
             ;04/11/2022 AB
             if aim < 10 [
