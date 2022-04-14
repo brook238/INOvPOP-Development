@@ -131,8 +131,12 @@ to setup-landscape      ;setup model landscape using GIS data for the selected r
 
   ;20220407. Import DRZ raster if present
   let drz-raster-name "../data/kankakee_drz_20220407.asc"
-  if file-exists? drz-raster-name [
+  ifelse file-exists? drz-raster-name [
     set drz-raster gis:load-dataset "../data/kankakee_drz_20220407.asc"
+  ]
+  [ask patches [
+    set drz 0
+    ]
   ]
 
   gis:set-world-envelope gis:envelope-of forest-map
@@ -700,52 +704,108 @@ to go
         ]
       ]
 
-    ;20220408. DRZ mortality
-    if any? patches with [drz = 1] [
-      ask patches with [drz = 1] [
-        if any? deers-here with [sex = 2] [
-          ; 20220413. Make mortality female specific
-          ask n-of round(drz-mortality * count deers-here) deers-here [
-            ;04/11/2022 AB
-            if aim < 10 [
-              ifelse sex = 1
-              [ set tgroid groid
+    ;20220414. Age/sex specific additional harvest within DRZs.
+    ask patches with [drz = 1] [
+      if any? deers-here [
+        ask deers-here [
+          if aim < 10 [
+            ifelse sex = 1 [
+              if random-float 1 < 0.001 [  ;20220414. Move value 0.001 to slider on interface following
+                set tgroid groid
                 hunting-mortality-mf12
-                ]
-              [ set tgroid groid
-                set twho who
-                hunting-mortality-ff12
-                ]
               ]
-            if aim = 20 [
-              ifelse sex = 1
-              [ set tgroid groid
+            ]
+            [
+              if random-float 1 < 0.1 [
+              set tgroid groid
+              set twho who
+              hunting-mortality-ff12
+              ]
+            ]
+          ]
+          if aim = 20 [
+            ifelse sex = 1 [
+              if random-float 1 < 0.001 [
+                set tgroid groid
                 hunting-mortality-my
-                ]
-              [ set tgroid groid
+              ]
+            ]
+            [
+              if random-float 1 < 0.1 [
+                set tgroid groid
                 set twho who
                 hunting-mortality-fy
-                ]
               ]
-            if aim > 30 [
-              ifelse sex = 1
-              [ set tgroid groid
+            ]
+          ]
+          if aim > 30 [
+            ifelse sex = 1 [
+              if random-float 1 < 0.001 [
+                set tgroid groid
                 hunting-mortality-ma
-                ]
-              [ set tgroid groid
+              ]
+            ]
+            [
+              if random-float 1 < 0.1 [
+                set tgroid groid
                 set twho who
                 hunting-mortality-fa
-                ]
               ]
-
-
-            ;
-            ;;die
-            ;
+            ]
           ]
         ]
       ]
     ]
+
+
+
+
+;    ;20220408. DRZ mortality
+;    if any? patches with [drz = 1] [
+;      ask patches with [drz = 1] [
+;        if any? deers-here with [sex = 2] [
+;          ; 20220413. Make mortality female specific
+;          ask n-of round(drz-mortality * count deers-here) deers-here [
+;            ;04/11/2022 AB
+;            if aim < 10 [
+;              ifelse sex = 1
+;              [ set tgroid groid
+;                hunting-mortality-mf12
+;                ]
+;              [ set tgroid groid
+;                set twho who
+;                hunting-mortality-ff12
+;                ]
+;              ]
+;            if aim = 20 [
+;              ifelse sex = 1
+;              [ set tgroid groid
+;                hunting-mortality-my
+;                ]
+;              [ set tgroid groid
+;                set twho who
+;                hunting-mortality-fy
+;                ]
+;              ]
+;            if aim > 30 [
+;              ifelse sex = 1
+;              [ set tgroid groid
+;                hunting-mortality-ma
+;                ]
+;              [ set tgroid groid
+;                set twho who
+;                hunting-mortality-fa
+;                ]
+;              ]
+;
+;
+;            ;
+;            ;;die
+;            ;
+;          ]
+;        ]
+;      ]
+;    ]
 
     let tot_harvest (tmfh + tmyh + tamh + tffh + tfyh + tafh)
     set vals3 (list (tmfh) (tmyh) (tamh) (tffh) (tfyh) (tafh) (tot_harvest) (iteration))
