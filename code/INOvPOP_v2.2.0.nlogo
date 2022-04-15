@@ -757,56 +757,6 @@ to go
       ]
     ]
 
-
-
-
-;    ;20220408. DRZ mortality
-;    if any? patches with [drz = 1] [
-;      ask patches with [drz = 1] [
-;        if any? deers-here with [sex = 2] [
-;          ; 20220413. Make mortality female specific
-;          ask n-of round(drz-mortality * count deers-here) deers-here [
-;            ;04/11/2022 AB
-;            if aim < 10 [
-;              ifelse sex = 1
-;              [ set tgroid groid
-;                hunting-mortality-mf12
-;                ]
-;              [ set tgroid groid
-;                set twho who
-;                hunting-mortality-ff12
-;                ]
-;              ]
-;            if aim = 20 [
-;              ifelse sex = 1
-;              [ set tgroid groid
-;                hunting-mortality-my
-;                ]
-;              [ set tgroid groid
-;                set twho who
-;                hunting-mortality-fy
-;                ]
-;              ]
-;            if aim > 30 [
-;              ifelse sex = 1
-;              [ set tgroid groid
-;                hunting-mortality-ma
-;                ]
-;              [ set tgroid groid
-;                set twho who
-;                hunting-mortality-fa
-;                ]
-;              ]
-;
-;
-;            ;
-;            ;;die
-;            ;
-;          ]
-;        ]
-;      ]
-;    ]
-
     let tot_harvest (tmfh + tmyh + tamh + tffh + tfyh + tafh)
     set vals3 (list (tmfh) (tmyh) (tamh) (tffh) (tfyh) (tafh) (tot_harvest) (iteration))
     set vals (sentence vals1 vals2 vals3)
