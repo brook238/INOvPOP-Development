@@ -710,13 +710,13 @@ to go
         ask deers-here [
           if aim < 10 [
             ifelse sex = 1 [
-              if random-float 1 < 0.001 [  ;20220414. Move value 0.001 to slider on interface following
+              if random-float 1 < drz-mf12hm [
                 set tgroid groid
                 hunting-mortality-mf12
               ]
             ]
             [
-              if random-float 1 < 0.1 [
+              if random-float 1 < drz-ff12hm [
               set tgroid groid
               set twho who
               hunting-mortality-ff12
@@ -725,13 +725,13 @@ to go
           ]
           if aim = 20 [
             ifelse sex = 1 [
-              if random-float 1 < 0.001 [
+              if random-float 1 < drz-myhm [
                 set tgroid groid
                 hunting-mortality-my
               ]
             ]
             [
-              if random-float 1 < 0.1 [
+              if random-float 1 < drz-fyhm [
                 set tgroid groid
                 set twho who
                 hunting-mortality-fy
@@ -740,13 +740,13 @@ to go
           ]
           if aim > 30 [
             ifelse sex = 1 [
-              if random-float 1 < 0.001 [
+              if random-float 1 < drz-mahm [
                 set tgroid groid
                 hunting-mortality-ma
               ]
             ]
             [
-              if random-float 1 < 0.1 [
+              if random-float 1 < drz-fahm [
                 set tgroid groid
                 set twho who
                 hunting-mortality-fa
@@ -1979,17 +1979,102 @@ INdiana Odocoileus virginianus POPulation (INOvPOP) ABM version 2.2.0
 0.0
 1
 
+TEXTBOX
+454
+441
+604
+459
+DRZ mortality (annual rates)
+11
+0.0
+1
+
 SLIDER
-469
-737
-641
-770
-drz-mortality
-drz-mortality
+446
+541
+618
+574
+drz-mf12hm
+drz-mf12hm
 0
 1
-0.15
-0.05
+0.0
+0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+446
+579
+618
+612
+drz-ff12hm
+drz-ff12hm
+0
+1
+0.0
+0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+445
+617
+617
+650
+drz-myhm
+drz-myhm
+0
+1
+0.0
+0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+444
+659
+616
+692
+drz-fyhm
+drz-fyhm
+0
+1
+0.0
+0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+443
+694
+615
+727
+drz-mahm
+drz-mahm
+0
+1
+0.0
+0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+445
+732
+617
+765
+drz-fahm
+drz-fahm
+0
+1
+0.0
+0.01
 1
 NIL
 HORIZONTAL
