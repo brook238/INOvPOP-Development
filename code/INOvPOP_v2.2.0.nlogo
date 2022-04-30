@@ -658,105 +658,105 @@ to go
     file-print ""
     file-close
     ]
+;--------------------------------------------------------------------- 20220430. Implement DRZ mortality
   if d = 12 [
-    ask deers [                                             ;turtle procedure: harvest mortality
+    ask deers [
       if aim < 10 [
-        ifelse sex = 1
-        [ if random-float 1 < mf12hm [
-          set tgroid groid
-          hunting-mortality-mf12
-          ]
-          ]
-        [ if random-float 1 < ff12hm [
-          set tgroid groid
-          set twho who
-          hunting-mortality-ff12
-          ]
-          ]
-        ]
-      if aim = 20 [
-        ifelse sex = 1
-        [ if random-float 1 < myhm [
-          set tgroid groid
-          hunting-mortality-my
-          ]
-          ]
-        [ if random-float 1 < fyhm [
-          set tgroid groid
-          set twho who
-          hunting-mortality-fy
-          ]
-          ]
-        ]
-      if aim > 30 [
-        ifelse sex = 1
-        [ if random-float 1 < mahm [
-          set tgroid groid
-          hunting-mortality-ma
-          ]
-          ]
-        [ if random-float 1 < fahm [
-          set tgroid groid
-          set twho who
-          hunting-mortality-fa
-          ]
-          ]
-        ]
-      ]
-
-    ;20220414. Age/sex specific additional harvest within DRZs.
-    ask patches with [drz = 1] [
-      if any? deers-here [
-        ask deers-here [
-          if aim < 10 [
-            ifelse sex = 1 [
-              if random-float 1 < drz-mf12hm [
-                set tgroid groid
-                hunting-mortality-mf12
-              ]
+        ifelse sex = 1 [
+          ifelse [drz] of patch-here = 1 [
+            if random-float 1 < drz-mf12hm [
+              set tgroid groid
+              hunting-mortality-mf12
             ]
-            [
-              if random-float 1 < drz-ff12hm [
+          ]
+          [
+            if random-float 1 < mf12hm [
+              set tgroid groid
+              hunting-mortality-mf12
+            ]
+          ]
+        ]
+        [
+          ifelse [drz] of patch-here = 1 [
+            if random-float 1 < drz-ff12hm [
               set tgroid groid
               set twho who
               hunting-mortality-ff12
-              ]
             ]
           ]
-          if aim = 20 [
-            ifelse sex = 1 [
-              if random-float 1 < drz-myhm [
-                set tgroid groid
-                hunting-mortality-my
-              ]
-            ]
-            [
-              if random-float 1 < drz-fyhm [
-                set tgroid groid
-                set twho who
-                hunting-mortality-fy
-              ]
-            ]
-          ]
-          if aim > 30 [
-            ifelse sex = 1 [
-              if random-float 1 < drz-mahm [
-                set tgroid groid
-                hunting-mortality-ma
-              ]
-            ]
-            [
-              if random-float 1 < drz-fahm [
-                set tgroid groid
-                set twho who
-                hunting-mortality-fa
-              ]
+          [
+            if random-float 1 < ff12hm [
+              set tgroid groid
+              set twho who
+              hunting-mortality-ff12
             ]
           ]
         ]
       ]
-    ]
-
+      if aim = 20 [
+        ifelse sex = 1 [
+          ifelse [drz] of patch-here = 1 [
+            if random-float 1 < drz-myhm [
+              set tgroid groid
+              hunting-mortality-my
+            ]
+          ]
+          [
+            if random-float 1 < myhm [
+              set tgroid groid
+              hunting-mortality-my
+            ]
+          ]
+        ]
+        [
+          ifelse [drz] of patch-here = 1 [
+            if random-float 1 < drz-fyhm [
+              set tgroid groid
+              set twho who
+              hunting-mortality-fy
+            ]
+          ]
+          [
+            if random-float 1 < fyhm [
+              set tgroid groid
+              set twho who
+              hunting-mortality-fy
+            ]
+          ]
+        ]
+      ]
+      if aim > 30 [
+        ifelse sex = 1 [
+          ifelse [drz] of patch-here = 1 [
+            if random-float 1 < drz-mahm [
+              set tgroid groid
+              hunting-mortality-ma
+            ]
+          ]
+          [
+            if random-float 1 < mahm [
+              set tgroid groid
+              hunting-mortality-ma
+            ]
+          ]
+        ]
+        [
+          ifelse [drz] of patch-here = 1 [
+            if random-float 1 < drz-fahm [
+              set tgroid groid
+              set twho who
+              hunting-mortality-fa
+            ]
+          ]
+          [
+            if random-float 1 < fahm [
+              set tgroid groid
+              set twho who
+              hunting-mortality-fa
+            ]
+          ]
+        ]
+      ]
     let tot_harvest (tmfh + tmyh + tamh + tffh + tfyh + tafh)
     set vals3 (list (tmfh) (tmyh) (tamh) (tffh) (tfyh) (tafh) (tot_harvest) (iteration))
     set vals (sentence vals1 vals2 vals3)
@@ -776,9 +776,8 @@ to go
       set tmyh 0
       set tfyh 0
       ]
-
-
     ]
+  ]
   set-current-plot "deer population"
   plotxy ticks count deers
   tick
@@ -1998,7 +1997,7 @@ drz-mf12hm
 drz-mf12hm
 0
 1
-0.0
+0.05
 0.01
 1
 NIL
@@ -2013,7 +2012,7 @@ drz-ff12hm
 drz-ff12hm
 0
 1
-0.0
+0.02
 0.01
 1
 NIL
@@ -2028,7 +2027,7 @@ drz-myhm
 drz-myhm
 0
 1
-0.0
+0.25
 0.01
 1
 NIL
@@ -2043,7 +2042,7 @@ drz-fyhm
 drz-fyhm
 0
 1
-0.0
+0.15
 0.01
 1
 NIL
@@ -2058,7 +2057,7 @@ drz-mahm
 drz-mahm
 0
 1
-0.0
+0.4
 0.01
 1
 NIL
@@ -2071,6 +2070,36 @@ SLIDER
 765
 drz-fahm
 drz-fahm
+0
+1
+0.2
+0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+442
+457
+614
+490
+drz-mf6hm
+drz-mf6hm
+0
+1
+0.0
+0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+443
+504
+615
+537
+drz-ff6hm
+drz-ff6hm
 0
 1
 0.0
