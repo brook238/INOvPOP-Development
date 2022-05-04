@@ -124,15 +124,15 @@ to setup-landscape      ;setup model landscape using GIS data for the selected r
     if recommended_parameter_values = TRUE [ set post_harvest_density 25 ]
     ]
   if region = "Kankakee" [
-    resize-world 0 112 0 102
-    set forest-map gis:load-dataset "../data/kankakee_20220327.asc"
+    resize-world 0 102 0 93
+    set forest-map gis:load-dataset "../data/kankakee_20220503.asc"
     if recommended_parameter_values = TRUE [ set post_harvest_density 25 ]
     ]
 
   ;20220407. Import DRZ raster if present
-  let drz-raster-name "../data/kankakee_drz_20220407.asc"
+  let drz-raster-name "../data/kankakee_drz_20220503.asc"
   ifelse file-exists? drz-raster-name [
-    set drz-raster gis:load-dataset "../data/kankakee_drz_20220407.asc"
+    set drz-raster gis:load-dataset "../data/kankakee_drz_20220503.asc"
   ]
   [ask patches [
     set drz 0
@@ -1311,8 +1311,8 @@ end
 GRAPHICS-WINDOW
 798
 65
-1258
-486
+1218
+450
 -1
 -1
 4.0
@@ -1326,9 +1326,9 @@ GRAPHICS-WINDOW
 1
 1
 0
-112
-0
 102
+0
+93
 1
 1
 1
